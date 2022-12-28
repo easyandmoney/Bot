@@ -1,6 +1,7 @@
 import logging
 
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
+from bot.api_client import api
 
 import settings
 
@@ -10,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 def greet_user(update, context):
     logger.debug('Вызван /start')
+    api.operations.add(2,"чай", 200)
     update.message.reply_text('Введи: /expense и сумму трат или /income и сумму дохода')
 
 
