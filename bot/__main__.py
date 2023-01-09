@@ -3,8 +3,8 @@ import logging
 from telegram import BotCommand
 from telegram.ext import CommandHandler, Updater
 
-from bot.utils.utils import get_expense, get_income, start
 import settings
+from bot.utils.commands import add_expense, add_income, start
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -13,17 +13,17 @@ logger = logging.getLogger(__name__)
 def main():
     mybot = Updater(settings.API_KEY, use_context=True)
 
-    dp = mybot.dispatcher
+    dp = mybot.dispatcher  # type: ignore
 
     cmnd = []
     cmnd.append(BotCommand('start', 'Start a bot'))
     cmnd.append(BotCommand('expense', 'Add a new expense'))
     cmnd.append(BotCommand('income', 'Add a new income'))
-    mybot.bot.set_my_commands(cmnd)
+    mybot.bot.set_my_commands(cmnd)  # type: ignore
 
     dp.add_handler(CommandHandler('start', start))
-    dp.add_handler(CommandHandler('expense', get_expense))
-    dp.add_handler(CommandHandler('income', get_income))
+    dp.add_handler(CommandHandler('expense', add_expense))
+    dp.add_handler(CommandHandler('income', add_income))
 
     mybot.start_polling()
     mybot.idle()
