@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from bot.clients.api import api
 
@@ -26,12 +27,14 @@ def add_expense(update, context):
     if context.args:
         user_expense = int(context.args[0])
         user_category = str(context.args[1])
+        payment_date = datetime.today()
 
         api.operations.add(
             user_id=user['uid'],
             category=user_category,
             amount=user_expense,
             is_income=False,
+            payment_date=payment_date
         )
         message = f'Вы потратили: {user_expense}, в категории: {user_category}'
 
@@ -48,12 +51,14 @@ def add_income(update, context):
     if context.args:
         user_income = int(context.args[0])
         user_category = str(context.args[1])
+        payment_date = datetime.today()
 
         api.operations.add(
             user_id=user['uid'],
             category=user_category,
             amount=user_income,
             is_income=True,
+            payment_date=payment_date
         )
         message = f'Вы получили: {user_income}, в категории: {user_category}'
 
