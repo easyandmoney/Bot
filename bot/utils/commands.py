@@ -27,7 +27,7 @@ def add_expense(update, context):
     if context.args:
         user_expense = int(context.args[0])
         user_category = str(context.args[1])
-        payment_date = datetime.today()
+        payment_date = datetime.now()
 
         api.operations.add(
             user_id=user['uid'],
