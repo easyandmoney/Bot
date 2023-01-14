@@ -34,7 +34,7 @@ def add_expense(update, context):
             category=user_category,
             amount=user_expense,
             is_income=False,
-            payment_date=payment_date
+            payment_date=payment_date,
         )
         message = f'Вы потратили: {user_expense}, в категории: {user_category}'
 
@@ -58,7 +58,7 @@ def add_income(update, context):
             category=user_category,
             amount=user_income,
             is_income=True,
-            payment_date=payment_date
+            payment_date=payment_date,
         )
         message = f'Вы получили: {user_income}, в категории: {user_category}'
 
