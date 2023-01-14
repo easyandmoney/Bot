@@ -5,3 +5,4 @@ COPY poetry.lock pyproject.toml /app/
 COPY bot /app/bot
 CMD ["python", "-m", "bot"]
 
+
