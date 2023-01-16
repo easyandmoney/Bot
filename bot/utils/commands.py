@@ -78,3 +78,12 @@ def create_user(update, context):
 
     context.user_data['user'] = user
     return user
+
+
+def get_today_expenses(update, context):
+    logger.debug('Вызван /today-expenses')
+    user = create_user(update, context)
+    logger.debug(user)
+    payment_date = datetime.now()
+
+    update.message.reply_text(f'{payment_date}')
