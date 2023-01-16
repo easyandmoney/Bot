@@ -81,7 +81,7 @@ def create_user(update, context):
 
 
 def get_today_expenses(update, context):
-    logger.debug('Вызван /today-expenses')
+    logger.debug('Вызван /todayExpenses')
     user = create_user(update, context)
     logger.debug(user)
     payment_date = datetime.now()
