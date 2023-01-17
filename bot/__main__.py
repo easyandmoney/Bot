@@ -4,7 +4,7 @@ from telegram import BotCommand
 from telegram.ext import CommandHandler, Updater
 
 import settings
-from bot.utils.commands import add_expense, add_income, get_today_expenses, start
+from bot.utils.commands import add_expense, add_income, get_expenses, start
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ def main():
     dp.add_handler(CommandHandler('start', start))
     dp.add_handler(CommandHandler('expense', add_expense))
     dp.add_handler(CommandHandler('income', add_income))
-    dp.add_handler(CommandHandler('report', get_today_expenses))
+    dp.add_handler(CommandHandler('report', get_expenses))
 
     mybot.start_polling()
     mybot.idle()

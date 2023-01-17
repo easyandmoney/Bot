@@ -29,12 +29,12 @@ class OperationsClient:
         return response.json()
 
 # adding func connected with the backend
-    def get_today_expenses(
+    def get_expenses(
         self,
         user_id: int,
-        payment_date: datetime,
+        payment_date: str,
     ):
-        url = f'{self.url}/api/v1/users/{user_id}/operations/'
+        url = f'{self.url}/api/v1/users/{user_id}/operations/{payment_date}'
         headers = {'Content-Type': 'application/json'}
         response = requests.request('GET', url=url, headers=headers)
         response.raise_for_status()
