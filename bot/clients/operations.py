@@ -1,7 +1,7 @@
 from datetime import datetime
 
-import requests
 import orjson
+import requests
 
 
 class OperationsClient:

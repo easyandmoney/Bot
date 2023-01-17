@@ -20,6 +20,29 @@ def start(update, context):
     update.message.reply_text('Введи: /expense и сумму трат или /income и сумму дохода')
 
 
+CATEGORIES = {
+    'telecom': ['связь', 'интернет', 'билайн'],
+    'cafe': ['кафе', 'ресторан'],
+    'food': ['продукты', 'еда'],
+    'transport': ['метро', 'автобус'],
+    'health': ['аптека', 'лекарства', 'врач'],
+    'sport': ['фитнес', 'бассейн'],
+    'beauty': ['косметика', 'процедура'],
+    'other': ['прочее', 'другое'],
+}
+
+
+def load_aliases():
+    aliases_map = {}
+    for category, aliases in CATEGORIES.items():
+        for alias in aliases:
+            aliases_map[alias] = category
+    return aliases_map
+
+
+ALIASES_MAP = load_aliases()
+
+
 def add_expense(update, context):
     logger.debug('Вызван /expense')
     user = create_user(update, context)
@@ -29,14 +52,16 @@ def add_expense(update, context):
         user_category = str(context.args[1])
         payment_date = datetime.now()
 
+        category_name = ALIASES_MAP.get(user_category)
+
         api.operations.add(
             user_id=user['uid'],
-            category=user_category,
+            category=category_name,
             amount=user_expense,
             is_income=False,
             payment_date=payment_date,
         )
-        message = f'Вы потратили: {user_expense}, в категории: {user_category}'
+        message = f'Вы потратили: {user_expense}, в категории: {category_name}'
 
     else:
         message = 'Введите сумму трат'
