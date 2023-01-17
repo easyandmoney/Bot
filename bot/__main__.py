@@ -19,13 +19,13 @@ def main():
     cmnd.append(BotCommand('start', 'Start a bot'))
     cmnd.append(BotCommand('expense', 'Add a new expense'))
     cmnd.append(BotCommand('income', 'Add a new income'))
-    cmnd.append(BotCommand('todayExpenses', 'List with all today expenses'))
+    cmnd.append(BotCommand('report', 'List with all today expenses'))
     mybot.bot.set_my_commands(cmnd)  # type: ignore
 
     dp.add_handler(CommandHandler('start', start))
     dp.add_handler(CommandHandler('expense', add_expense))
     dp.add_handler(CommandHandler('income', add_income))
-    dp.add_handler(CommandHandler('todayExpenses', get_today_expenses))
+    dp.add_handler(CommandHandler('report', get_today_expenses))
 
     mybot.start_polling()
     mybot.idle()

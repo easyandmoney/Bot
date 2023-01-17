@@ -81,9 +81,14 @@ def create_user(update, context):
 
 
 def get_today_expenses(update, context):
-    logger.debug('Вызван /todayExpenses')
+    logger.debug('Вызван /report')
     user = create_user(update, context)
     logger.debug(user)
     payment_date = datetime.now()
+    amount_list = api.operations.get_today_expenses(
+        user_id=user['uid'],
+        payment_date=payment_date,
+    )
+    amount = sum(item['amount'] for item in amount_list)
 
-    update.message.reply_text(f'{payment_date}')
+    update.message.reply_text(f'Сегодня вы потратили {amount} рублей')

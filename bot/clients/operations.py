@@ -32,20 +32,10 @@ class OperationsClient:
     def get_today_expenses(
         self,
         user_id: int,
-        category: str,
-        amount: int,
-        is_income: bool,
         payment_date: datetime,
     ):
-
         url = f'{self.url}/api/v1/users/{user_id}/operations/'
-        payload = {
-            'name': category,
-            'amount': amount,
-            'type_income_expenses': 'income' if is_income else 'expense',
-            'payment_date': payment_date,
-        }
         headers = {'Content-Type': 'application/json'}
-        response = requests.request('GET', url, data=orjson.dumps(payload), headers=headers)
+        response = requests.request('GET', url=url, headers=headers)
         response.raise_for_status()
         return response.json()
