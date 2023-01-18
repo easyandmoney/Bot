@@ -32,9 +32,9 @@ class OperationsClient:
     def get_expenses(
         self,
         user_id: int,
-        payment_date: str,
+        payment_period: str,
     ):
-        url = f'{self.url}/api/v1/users/{user_id}/operations/{payment_date}'
+        url = f'{self.url}/api/v1/users/{user_id}/operations/{payment_period}'
         headers = {'Content-Type': 'application/json'}
         response = requests.request('GET', url=url, headers=headers)
         response.raise_for_status()
