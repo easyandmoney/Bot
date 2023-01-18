@@ -103,3 +103,18 @@ def create_user(update, context):
 
     context.user_data['user'] = user
     return user
+
+
+def get_expenses(update, context):
+    logger.debug('Вызван /report')
+    user = create_user(update, context)
+    logger.debug(user)
+    payment_period = str(context.args[0]) if context.args else 'today'
+
+    amount_list = api.operations.get_expenses(
+        user_id=user['uid'],
+        payment_period=payment_period,
+    )
+    amount = sum(item['amount'] for item in amount_list)
+
+    update.message.reply_text(f'You spend {amount} rubles {payment_period}')

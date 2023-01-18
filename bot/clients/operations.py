@@ -27,3 +27,15 @@ class OperationsClient:
         response = requests.request('POST', url, data=orjson.dumps(payload), headers=headers)
         response.raise_for_status()
         return response.json()
+
+# adding func connected with the backend
+    def get_expenses(
+        self,
+        user_id: int,
+        payment_period: str,
+    ):
+        url = f'{self.url}/api/v1/users/{user_id}/operations/{payment_period}'
+        headers = {'Content-Type': 'application/json'}
+        response = requests.request('GET', url=url, headers=headers)
+        response.raise_for_status()
+        return response.json()
