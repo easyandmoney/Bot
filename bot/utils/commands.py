@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from telegram import ReplyKeyboardMarkup
 
 from bot.clients.api import api
 
@@ -17,7 +18,17 @@ def start(update, context):
     user = create_user(update, context)
     logger.debug(user)
 
-    update.message.reply_text('Введи: /expense и сумму трат или /income и сумму дохода')
+    reply_keyboard = [['Expense', 'Income', 'Report']]
+
+    reply_markup = ReplyKeyboardMarkup(
+        reply_keyboard, one_time_keyboard=True, input_field_placeholder="Boy or Girl?"
+    )
+    update.message.reply_text(
+        "Hello, let's count your money", reply_markup=reply_markup
+    )
+    # update.message.reply_text('Введи: /expense и сумму трат или /income и сумму дохода')
+
+    return 0
 
 
 CATEGORIES = {
@@ -46,13 +57,15 @@ ALIASES_MAP = load_aliases()
 def add_expense(update, context):
     logger.debug('Вызван /expense')
     user = create_user(update, context)
+    args = update.message.text.split()
 
-    if context.args:
-        user_expense = int(context.args[0])
-        user_category = str(context.args[1])
+
+    if args:
+        user_expense = int(args[0])
+        user_category = str(args[1])
         payment_date = datetime.now()
 
-        category_name = ALIASES_MAP.get(user_category)
+        category_name = ALIASES_MAP.get(user_category, 'Other')
 
         api.operations.add(
             user_id=user['uid'],
@@ -62,11 +75,13 @@ def add_expense(update, context):
             payment_date=payment_date,
         )
         message = f'Вы потратили: {user_expense}, в категории: {category_name}'
+        # TODO: кнопку готову чтобы выйти в начало
 
     else:
         message = 'Введите сумму трат'
 
     update.message.reply_text(message)
+    return 1
 
 
 def add_income(update, context):
