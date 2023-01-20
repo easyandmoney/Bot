@@ -8,23 +8,21 @@ logger = logging.getLogger(__name__)
 
 
 def start(update, context):
-    """hi.
-
-    api.operations.add(2, 'чай', 200)
-    api_user.user.add_user('kit', 'kit@ya.ru')
-    """
     logger.debug('Вызван /start')
 
     user = create_user(update, context)
     logger.debug(user)
 
-    reply_keyboard = [['Expense', 'Income', 'Report']]
+    reply_keyboard = [['Expense', 'Report','Delete']]
 
     reply_markup = ReplyKeyboardMarkup(
         reply_keyboard, one_time_keyboard=True, input_field_placeholder="Boy or Girl?"
     )
     update.message.reply_text(
-        "Hello, let's count your money", reply_markup=reply_markup
+        'Hello, lets count your money 💰.\n'
+        'Plese chose add expenses, add income or \n'
+        'check a report for today, month or year 📊',
+        reply_markup=reply_markup
     )
     # update.message.reply_text('Введи: /expense и сумму трат или /income и сумму дохода')
 
@@ -32,14 +30,15 @@ def start(update, context):
 
 
 CATEGORIES = {
-    'telecom': ['связь', 'интернет', 'билайн'],
-    'cafe': ['кафе', 'ресторан'],
-    'food': ['продукты', 'еда'],
-    'transport': ['метро', 'автобус'],
-    'health': ['аптека', 'лекарства', 'врач'],
-    'sport': ['фитнес', 'бассейн'],
-    'beauty': ['косметика', 'процедура'],
-    'other': ['прочее', 'другое'],
+    'telecom': ['internet', 'phone'],
+    'cafe': ['cafe'],
+    'food': ['food'],
+    'transport': ['taxi', 'bus','car', 'metro'],
+    'house': ['rent','utilities'],
+    'health': ['doctor','pills'],
+    'sport': ['sport', 'бассейн'],
+    'beauty': ['cosmetics'],
+    'other': ['other'],
 }
 
 
@@ -59,7 +58,6 @@ def add_expense(update, context):
     user = create_user(update, context)
     args = update.message.text.split()
 
-
     if args:
         user_expense = int(args[0])
         user_category = str(args[1])
@@ -74,37 +72,38 @@ def add_expense(update, context):
             is_income=False,
             payment_date=payment_date,
         )
-        message = f'Вы потратили: {user_expense}, в категории: {category_name}'
+        message = f'You spent: {user_expense},for  {category_name} today'
         # TODO: кнопку готову чтобы выйти в начало
 
     else:
-        message = 'Введите сумму трат'
+        message = 'Add sum and category'
 
     update.message.reply_text(message)
     return 1
 
 
-def add_income(update, context):
-    logger.debug('Вызван /income')
-    user = create_user(update, context)
+# def add_income(update, context):
+#     logger.debug('Вызван /income')
+#     user = create_user(update, context)
 
-    if context.args:
-        user_income = int(context.args[0])
-        user_category = str(context.args[1])
-        payment_date = datetime.today()
+#     if context.args:
+#         user_income = int(context.args[0])
+#         # user_category = str(context.args[1])
+#         payment_date = datetime.today()
 
-        api.operations.add(
-            user_id=user['uid'],
-            category=user_category,
-            amount=user_income,
-            is_income=True,
-            payment_date=payment_date,
-        )
-        message = f'Вы получили: {user_income}, в категории: {user_category}'
+#         api.operations.add(
+#             user_id=user['uid'],
+#             # category=user_category,
+#             amount=user_income,
+#             is_income=True,
+#             payment_date=payment_date,
+#         )
+#         message = f'You add: {user_income} to your income'
 
-    else:
-        message = 'Введите сумму дохода'
-    update.message.reply_text(message)
+#     else:
+#         message = 'Введите сумму дохода'
+#     update.message.reply_text(message)
+#     return 2
 
 
 def create_user(update, context):
@@ -123,7 +122,9 @@ def create_user(update, context):
 def get_expenses(update, context):
     logger.debug('Вызван /report')
     user = create_user(update, context)
+    # reply_report = [['today', 'month','year']]
     logger.debug(user)
+
     payment_period = str(context.args[0]) if context.args else 'today'
 
     amount_list = api.operations.get_expenses(
@@ -133,6 +134,8 @@ def get_expenses(update, context):
     amount = sum(item['amount'] for item in amount_list)
 
     update.message.reply_text(f'You spend {amount} rubles {payment_period}')
+    return 2
+
 
 def delete_last_expense(update, context):
     logger.debug('Вызван /delete')
@@ -144,3 +147,4 @@ def delete_last_expense(update, context):
     )
 
     update.message.reply_text(f'Your last expense has been deleted')
+    return 3
