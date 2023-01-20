@@ -118,3 +118,15 @@ def get_expenses(update, context):
     amount = sum(item['amount'] for item in amount_list)
 
     update.message.reply_text(f'You spend {amount} rubles {payment_period}')
+
+
+def delete_last_expense(update, context):
+    logger.debug('Вызван /delete')
+    user = create_user(update, context)
+    logger.debug(user)
+
+    api.operations.delete_last_expense(
+        user_id=user['uid'],
+    )
+
+    update.message.reply_text(f'Your last expense has been deleted')
