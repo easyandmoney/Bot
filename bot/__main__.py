@@ -16,6 +16,7 @@ def choice(update, context) -> int:
     # reply_report = [['today', 'month','year']]
     reply_keyboard = [['Expense', 'Report','Delete']]
     reply_ok = [['OK']]
+    reply_menu = [['Go back to menu ↩️']]
 
     if update.message.text == 'Expense':
         update.message.reply_text(
