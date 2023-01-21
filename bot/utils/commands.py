@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from telegram import ReplyKeyboardMarkup
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 
 from bot.clients.api import api
 
@@ -122,8 +122,12 @@ def create_user(update, context):
 def get_expenses(update, context):
     logger.debug('Вызван /report')
     user = create_user(update, context)
-    # reply_report = [['today', 'month','year']]
     logger.debug(user)
+    # args = update.message.text.split()
+    reply_report = [['today', 'month','year']]
+
+
+
 
     payment_period = str(context.args[0]) if context.args else 'today'
 

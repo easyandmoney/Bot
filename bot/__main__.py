@@ -13,7 +13,7 @@ START, EXPENSE, INCOME, REPORT, DELETE = range(5)
 def choice(update, context) -> int:
     logger.info("Gender of : %s", update.message.text)
     #TODO keyboard for report
-    # reply_report = [['today', 'month','year']]
+    reply_report = [['today', 'month','year']]
     reply_keyboard = [['Expense', 'Report','Delete']]
     reply_ok = [['OK']]
     reply_menu = [['Go back to menu ↩️']]
@@ -38,18 +38,17 @@ def choice(update, context) -> int:
     #TODO make a keyboard for answer today/month/year
     if update.message.text == 'Report':
         update.message.reply_text(
-            'Please choose period \n'
-            'today \n'
-            'month \n'
-            'year \n'
-            '\n'
-            '500',
-            reply_markup=ReplyKeyboardRemove(),
-            # reply_markup=ReplyKeyboardMarkup(
-            #     reply_report, one_time_keyboard=True, input_field_placeholder="Boy or Girl?"
-            # )
+        'Please choose period \n',
+        # 'today \n'
+        # 'month \n'
+        # 'year \n'
+        # '\n'
+        # '500',
+        reply_markup=ReplyKeyboardMarkup(
+            reply_report, one_time_keyboard=True, input_field_placeholder="Boy or Girl?"
         )
-        return REPORT
+    )
+    return REPORT
     if update.message.text == 'Delete':
         update.message.reply_text(
             'We will delete you last operation.\n'
