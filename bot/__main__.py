@@ -2,8 +2,8 @@ import logging
 
 from telegram.ext import CommandHandler, ConversationHandler, Filters, MessageHandler, Updater
 
-import settings
-from bot.commands import add_expense, delete_last_expense, get_expenses, start, choice
+from bot.commands import add_expense, choice, delete_last_expense, get_expenses, start
+from bot.config import conf
 from bot.status import DELETE, EXPENSE, REPORT, START
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    mybot = Updater(settings.API_KEY, use_context=True)
+    mybot = Updater(conf.api_key, use_context=True)
 
     dp = mybot.dispatcher  # type: ignore
 

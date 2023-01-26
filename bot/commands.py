@@ -21,7 +21,7 @@ def start(update, context):
     )
     message = """
     Hello, lets count your money 💰.
-Plese chose add expenses, add income or
+Please chose add expenses, add income or
 check a report for today, month or year 📊"""
     update.message.reply_text(
         message,
@@ -119,7 +119,6 @@ def add_expense(update, context):
             payment_date=payment_date,
         )
         message = f'You spent: {user_expense}  for  {category_name} today.\n '
-        # TODO: кнопку готову чтобы выйти в начало
 
     else:
         message = 'Add sum and category'
@@ -130,7 +129,7 @@ def add_expense(update, context):
         one_time_keyboard=True,
     )
     message = """
-Plese chose add expenses, add income or
+Please chose add expenses, add income or
 check a report for today, month or year 📊"""
     update.message.reply_text(
         message,
@@ -181,7 +180,7 @@ def get_expenses(update, context):
         one_time_keyboard=True,
     )
     message = """
-Plese chose add expenses, add income or
+Please chose add expenses, add income or
 check a report for today, month or year 📊"""
     update.message.reply_text(
         message,
@@ -206,7 +205,7 @@ def delete_last_expense(update, context):
         one_time_keyboard=True,
     )
     message = """
-Plese chose add expenses, add income or
+Please chose add expenses, add income or
 check a report for today, month or year 📊"""
     update.message.reply_text(
         message,
